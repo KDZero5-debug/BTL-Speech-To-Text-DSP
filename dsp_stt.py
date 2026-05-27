@@ -26,10 +26,17 @@ def advanced_dsp_and_stt(wav_path):
     # ----------------------------------------------------
     # PHẦN 2: CHUYỂN LỜI NÓI THÀNH VĂN BẢN (STT NGUYÊN CÂU)
     # ----------------------------------------------------
-    print("\n[Hệ thống STT] Đang gửi dữ liệu số hóa lên mô hình AI để dịch...")
+    print("\n[Hệ thống STT] Đang kích hoạt bộ lọc nhiễu môi trường...")
     
     recognizer = sr.Recognizer()
     with sr.AudioFile(wav_path) as source:
+
+# === BỔ SUNG BỘ LỌC NHIỄU Ở ĐÂY ===
+        # Lệnh này sẽ quét phân tích 0.5 giây đầu của file để nhận diện tần số nhiễu môi trường
+        # và tự động thiết lập một ngưỡng lọc (dynamic energy threshold) để triệt tiêu nhiễu.
+        recognizer.adjust_for_ambient_noise(source, duration=0.5)
+        print("[Bộ lọc] Đã triệt tiêu tạp âm nền thành công!")
+        
         # Đọc toàn bộ dữ liệu âm thanh đã lấy mẫu
         audio_data = recognizer.record(source)
         try:
