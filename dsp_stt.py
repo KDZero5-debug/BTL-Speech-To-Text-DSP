@@ -2,7 +2,25 @@ import numpy as np
 import scipy.io.wavfile as wav
 from scipy.fft import fft
 import speech_recognition as sr
+from pydub import AudioSegment
 
+def convert_and_resample_audio(input_path, output_path="giong_cua_nam.wav"):
+    print(f"--- TIỀN XỬ LÝ: Chuyển đổi định dạng và Lấy mẫu lại ---")
+    # Đọc file ghi âm gốc từ điện thoại (.m4a, .aac, .mp3, v.v.)
+    audio = AudioSegment.from_file(input_path)
+    
+    print(f"[Gốc] Tần số lấy mẫu ban đầu: {audio.frame_rate} Hz, Số kênh: {audio.channels}")
+    
+    # ÁP DỤNG LÝ THUYẾT LẤY MẪU LẠI (RESAMPLING)
+    # Hạ mẫu xuống 16000 Hz và chuyển về 1 kênh (Mono) theo chuẩn hệ thống STT
+    audio = audio.set_frame_rate(16000).set_channels(1)
+    
+    print(f"[DSP Resampling] Đã hạ mẫu xuống: {audio.frame_rate} Hz, Số kênh: {audio.channels} (Mono)")
+    
+    # Xuất ra file .wav (Định dạng PCM thô không nén dành cho xử lý tín hiệu)
+    audio.export(output_path, format="wav")
+    print(f"-> Đã xuất file số hóa chuẩn: {output_path}\n")
+    return output_path
 def advanced_dsp_and_stt(wav_path):
     print(f"=== BẮT ĐẦU QUÁ TRÌNH XỬ LÝ TÍN HIỆU & NHẬN DIỆN: {wav_path} ===")
     
@@ -53,8 +71,11 @@ def advanced_dsp_and_stt(wav_path):
             print("❌ Lỗi: Không thể kết nối Internet để gọi mô hình nhận diện.")
 
 if __name__ == "__main__":
-    # Đảm bảo bạn đã cài: pip install numpy scipy SpeechRecognition pydub
-    # Tên file ghi âm thật của bạn trên Codespaces
-    test_filename = "giong_cua_nam.wav" 
+    # 1. Bạn chỉ cần kéo thả file gốc từ điện thoại lên (ví dụ: ghi_am.m4a hoặc ghi_am.aac)
+    file_goc_dien_thoai = "ghi_am.m4a" 
     
-    advanced_dsp_and_stt(test_filename)
+    # 2. Tự động chạy code DSP để convert và lấy mẫu lại về 16000Hz
+    file_chuan_wav = convert_and_resample_audio(file_goc_dien_thoai)
+    
+    # 3. Chạy thuật toán phân tích FFT và nhận diện STT
+    advanced_dsp_and_stt(file_chuan_wav)
