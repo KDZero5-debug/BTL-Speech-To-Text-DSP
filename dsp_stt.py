@@ -71,11 +71,12 @@ def advanced_dsp_and_stt(wav_path):
             print("❌ Lỗi: Không thể kết nối Internet để gọi mô hình nhận diện.")
 
 if __name__ == "__main__":
-    # 1. Bạn chỉ cần kéo thả file gốc từ điện thoại lên (ví dụ: ghi_am.m4a hoặc ghi_am.aac)
+    # 1. Khai báo ĐÚNG tên file thực tế bạn vừa kéo thả lên Codespace
     file_goc_dien_thoai = "ghi_am.m4a" 
     
-    # 2. Tự động chạy code DSP để convert và lấy mẫu lại về 16000Hz
+    # 2. Hàm này sẽ tự động đọc file .m4a đó, xử lý hạ mẫu hạ kênh 
+    # và tự đẻ ra một file mới tên là "giong_cua_nam.wav" ở cột bên trái cho bạn.
     file_chuan_wav = convert_and_resample_audio(file_goc_dien_thoai)
     
-    # 3. Chạy thuật toán phân tích FFT và nhận diện STT
+    # 3. Thuật toán DSP phân tích FFT và đưa vào AI nhận diện câu
     advanced_dsp_and_stt(file_chuan_wav)
