@@ -71,12 +71,9 @@ def advanced_dsp_and_stt(wav_path):
             print("❌ Lỗi: Không thể kết nối Internet để gọi mô hình nhận diện.")
 
 if __name__ == "__main__":
-    # 1. Khai báo ĐÚNG tên file thực tế bạn vừa kéo thả lên Codespace
-    file_goc_dien_thoai = "ghi_am.m4a" 
+    # Điền chính xác tên file đuôi .aac bạn vừa tải lên ở đây
+    file_goc_dien_thoai = "ghi_am.aac" 
     
-    # 2. Hàm này sẽ tự động đọc file .m4a đó, xử lý hạ mẫu hạ kênh 
-    # và tự đẻ ra một file mới tên là "giong_cua_nam.wav" ở cột bên trái cho bạn.
+    # Đoạn dưới giữ nguyên, code sẽ tự đọc file .aac này để hạ mẫu số hóa
     file_chuan_wav = convert_and_resample_audio(file_goc_dien_thoai)
-    
-    # 3. Thuật toán DSP phân tích FFT và đưa vào AI nhận diện câu
     advanced_dsp_and_stt(file_chuan_wav)
